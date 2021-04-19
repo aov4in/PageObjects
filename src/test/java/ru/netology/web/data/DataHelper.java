@@ -33,8 +33,8 @@ public class DataHelper {
     @Value
     @AllArgsConstructor
     public static class Cards {
-        private String cardNumber;
-        private final String startBalance;
+        String cardNumber;
+        String startBalance;
     }
 
     public static Cards getFirstTransferData() {
@@ -46,12 +46,10 @@ public class DataHelper {
     }
 
     public static int getBalanceAfterTransfer(int balanceBefore, int value) {
-        int balanceAfter = balanceBefore - value;
-        return balanceAfter;
+        return balanceBefore - value;
     }
 
     public static int getBalanceAfterGet(int balanceBefore, int value) {
-        int balanceAfter = balanceBefore + value;
-        return balanceAfter;
+        return balanceBefore + value;
     }
 }

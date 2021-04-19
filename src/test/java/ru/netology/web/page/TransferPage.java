@@ -13,8 +13,8 @@ import static com.codeborne.selenide.Selenide.back;
 public class TransferPage {
     private SelenideElement heading = $(byText("Пополнение карты"));
 
-    private SelenideElement amount = $("[class='input__box'] [type='text']");
-    private SelenideElement from = $("[class='input__box'] [type='tel']");
+    private SelenideElement amount = $("[data-test-id=amount] .input__control");
+    private SelenideElement from = $("[data-test-id=from] .input__control");
     private SelenideElement transferButton = $("[data-test-id=action-transfer]");
     private SelenideElement cancelButton = $("[data-test-id=action-cancel]");
 
