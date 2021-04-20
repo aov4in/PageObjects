@@ -9,6 +9,7 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.back;
+import static java.lang.String.valueOf;
 
 public class TransferPage {
     private SelenideElement heading = $(byText("Пополнение карты"));
@@ -17,30 +18,30 @@ public class TransferPage {
     private SelenideElement from = $("[data-test-id=from] .input__control");
     private SelenideElement transferButton = $("[data-test-id=action-transfer]");
     private SelenideElement cancelButton = $("[data-test-id=action-cancel]");
+    private SelenideElement errorTransfer = $("[data-test-id=error-notification] .notification__content");
 
-    public TransferPage(){
+    public TransferPage() {
         heading.shouldBe(Condition.visible);
     }
 
-    public DashboardPage validVerify1(DataHelper.Cards transferInfo, int value) {
-        amount.sendKeys(Keys.chord(Keys.CONTROL,"a"));
+    public DashboardPage amountValidTransfer(DataHelper.Cards transferInfo, int value) {
+        amount.sendKeys(Keys.chord(Keys.CONTROL, "a"));
         amount.sendKeys(Keys.BACK_SPACE);
-        amount.setValue(String.valueOf(value));
-        from.sendKeys(Keys.chord(Keys.CONTROL,"a"));
+        amount.setValue(valueOf(value));
+        from.sendKeys(Keys.chord(Keys.CONTROL, "a"));
         from.sendKeys(Keys.DELETE);
         from.setValue(transferInfo.getCardNumber());
         transferButton.click();
         return new DashboardPage();
     }
 
-    public DashboardPage noValidVerify(DataHelper.Cards transferInfo, int value) {
-        amount.sendKeys(Keys.chord(Keys.CONTROL,"a"));
-        amount.sendKeys(Keys.BACK_SPACE);
-        amount.setValue(String.valueOf(value));
-        from.sendKeys(Keys.chord(Keys.CONTROL,"a"));
-        from.sendKeys(Keys.DELETE);
-        from.setValue(transferInfo.getCardNumber());
+    public DashboardPage cancelTransfer(DataHelper.Cards transferInfo, int value) {
         cancelButton.click();
+        return new DashboardPage();
+    }
+
+    public DashboardPage errorTransfer() {
+        errorTransfer.shouldBe(Condition.text("Ошибка! "));
         return new DashboardPage();
     }
 

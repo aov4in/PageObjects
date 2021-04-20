@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.page.DashboardPage;
 import ru.netology.web.page.LoginPage;
+import ru.netology.web.page.TransferPage;
 
 import static com.codeborne.selenide.Selenide.open;
 
@@ -26,7 +27,7 @@ public class MoneyTransferTest {
         val secondCardBalanceAfter = DataHelper.getBalanceAfterTransfer(secondCardBalance, value);
         val transferInfo = DataHelper.getSecondTransferData();
         val transferPage = dashboardPage.validToTransferCard1();
-        transferPage.validVerify1(transferInfo, value);
+        transferPage.amountValidTransfer(transferInfo, value);
         val actualCurrentFirstCard = dashboardPage.getFirstCardBalance();
         Assertions.assertEquals(firstCardBalanceAfter, actualCurrentFirstCard);
         val actualCurrentSecondCard = dashboardPage.getSecondCardBalance();
@@ -40,14 +41,14 @@ public class MoneyTransferTest {
         val verificationPage = loginPage.validLogin(authInfo);
         val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         val dashboardPage =  verificationPage.validVerify(verificationCode);
-        val value = 600;
+        val value = 400;
         val firstCardBalance = dashboardPage.getFirstCardBalance();
         val secondCardBalance = dashboardPage.getSecondCardBalance();
         val firstCardBalanceAfter = DataHelper.getBalanceAfterTransfer(firstCardBalance, value);
         val secondCardBalanceAfter = DataHelper.getBalanceAfterGet(secondCardBalance, value);
         val transferInfo = DataHelper.getFirstTransferData();
         val transferPage = dashboardPage.validToTransferCard2();
-        transferPage.validVerify1(transferInfo, value);
+        transferPage.amountValidTransfer(transferInfo, value);
         val actualCurrentFirstCard = dashboardPage.getFirstCardBalance();
         Assertions.assertEquals(firstCardBalanceAfter, actualCurrentFirstCard);
         val actualCurrentSecondCard = dashboardPage.getSecondCardBalance();
@@ -64,7 +65,8 @@ public class MoneyTransferTest {
         val value = 111000;
         val transferInfo = DataHelper.getSecondTransferData();
         val transferPage = dashboardPage.validToTransferCard1();
-        transferPage.noValidVerify(transferInfo, value);
+        transferPage.cancelTransfer(transferInfo, value);
+        val cancelPage = new DashboardPage();
     }
 
     @Test
@@ -81,12 +83,7 @@ public class MoneyTransferTest {
         val secondCardBalanceAfter = DataHelper.getBalanceAfterGet(secondCardBalance, value);
         val transferInfo = DataHelper.getFirstTransferData();
         val transferPage = dashboardPage.validToTransferCard2();
-        transferPage.validVerify1(transferInfo, value);
-        val actualCurrentFirstCard = dashboardPage.getFirstCardBalance();
-        Assertions.assertEquals(firstCardBalanceAfter, actualCurrentFirstCard);
-        val actualCurrentSecondCard = dashboardPage.getSecondCardBalance();
-        Assertions.assertEquals(secondCardBalanceAfter, actualCurrentSecondCard);
-
+        transferPage.amountValidTransfer(transferInfo, value);
+        transferPage.errorTransfer();
     }
-
 }
